@@ -44,7 +44,7 @@ dependencies {
 
 #### Create instagram & callback object
 ```
-Instagram insa = new Instagram("username","password");
+Instagram insta = new Instagram("username","password");
 OnCompleteCallback callback = new OnCompleteCallback() {
             @Override
             public void onSuccess() {
