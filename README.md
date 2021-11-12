@@ -28,7 +28,7 @@ This is an android library through which you can use instagram programatically. 
 In your app build.gradle
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyInsta:v1'
+	        implementation 'com.github.ErrorxCode:EasyInsta:1'
 	}
 ```
 
