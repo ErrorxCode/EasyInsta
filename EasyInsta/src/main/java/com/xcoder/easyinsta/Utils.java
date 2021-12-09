@@ -1,7 +1,5 @@
 package com.xcoder.easyinsta;
 
-import android.os.Build;
-
 import com.github.instagram4j.instagram4j.IGClient;
 import com.github.instagram4j.instagram4j.actions.users.UserAction;
 import com.github.instagram4j.instagram4j.models.user.Profile;
@@ -10,40 +8,40 @@ import com.github.instagram4j.instagram4j.requests.IGRequest;
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsActionRequest;
 import com.github.instagram4j.instagram4j.responses.IGResponse;
 import com.github.instagram4j.instagram4j.responses.feed.FeedUsersResponse;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 class Utils {
     private static IGClient client;
-    private String string;
+    private Object meta;
     protected Utils(IGClient client){
         Utils.client = client;
     }
 
-    protected <T extends IGResponse> void request(IGRequest<T> request, OnCompleteCallback callback) {
+    protected <T extends IGResponse> Task<String> request(IGRequest<T> request) throws CompletionException {
+        Task<String> task = new Task<>();
         CompletableFuture<T> response = client.sendRequest(request);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && callback != null) {
-            response.thenAccept(new Consumer<IGResponse>() {
-                @Override
-                public void accept(IGResponse igResponse) {
-                    callback.onSuccess();
-                }
-            }).exceptionally(new Function<Throwable, Void>() {
-                @Override
-                public Void apply(Throwable throwable) {
-                    callback.onFailed(throwable);
-                    return null;
-                }
-            });
-        }
+        response.thenAccept(new Consumer<IGResponse>() {
+            @Override
+            public void accept(IGResponse igResponse) {
+               task.value = igResponse.getMessage();
+            }
+        }).exceptionally(new Function<Throwable, Void>() {
+            @Override
+            public Void apply(Throwable throwable) {
+                task.exception = throwable;
+                return null;
+            }
+        }).join();
+        return task;
     }
 
 
@@ -55,115 +53,75 @@ class Utils {
     }
 
 
-    protected void followAction(String username, FriendshipsActionRequest.FriendshipsAction action, OnCompleteCallback callback){
+    protected Task<String> followAction(String username, FriendshipsActionRequest.FriendshipsAction action){
         try {
             User user = client.actions().users().findByUsername(username).get().getUser();
-            request(new FriendshipsActionRequest(user.getPk(),action), callback);
+            return request(new FriendshipsActionRequest(user.getPk(),action));
         } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            if (callback == null)
-                followAction(username,action, null);
-            else
-                callback.onFailed(e);
+            return new Task<>(e);
         }
     }
 
-    protected String getProfileMetadata(CompletableFuture<UserAction> response,String what,OnCompleteCallback callback){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && callback != null) {
+
+    protected Object getProfileMetadata(CompletableFuture<UserAction> response, String what){
+        try {
             response.thenAccept(new Consumer<UserAction>() {
                 @Override
                 public void accept(UserAction userAction) {
-                    callback.onSuccess();
                     switch (what) {
                         case "dp":
-                            string = userAction.getUser().getProfile_pic_url();
+                            meta = userAction.getUser().getProfile_pic_url();
                             break;
                         case "bio":
-                            string = userAction.getUser().getBiography();
+                            meta = userAction.getUser().getBiography();
                             break;
                         case "followers":
-                            string = String.valueOf(userAction.getUser().getFollower_count());
+                            meta = userAction.getUser().getFollower_count();
                             break;
                         case "followings":
-                            string = String.valueOf(userAction.getUser().getFollowing_count());
+                            meta = userAction.getUser().getFollowing_count();
                             break;
                         default:
-                            string = String.valueOf(userAction.getUser().getMedia_count());
-                            break;
+                            meta = userAction.getUser().getMedia_count();
                     }
                 }
             }).exceptionally(new Function<Throwable, Void>() {
                 @Override
                 public Void apply(Throwable throwable) {
-                    callback.onFailed(throwable);
+                    meta = throwable;
                     return null;
                 }
             }).join();
-        } else {
-            try {
-                switch (what) {
-                    case "dp":
-                        string = response.get().getUser().getProfile_pic_url();
-                        break;
-                    case "bio":
-                        string = response.get().getUser().getBiography();
-                        break;
-                    case "followers":
-                        string = String.valueOf(response.get().getUser().getFollower_count());
-                        break;
-                    case "followings":
-                        string = String.valueOf(response.get().getUser().getFollowing_count());
-                        break;
-                    default:
-                        string = String.valueOf(response.get().getUser().getMedia_count());
-                        break;
-                }
-                if (callback != null)
-                    callback.onSuccess();
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-                if (callback != null)
-                    callback.onFailed(e);
-            }
+            return meta;
+        } catch (CompletionException e){
+            return e;
         }
-        return string;
     }
 
-    protected List<String> getFeeds(CompletableFuture<UserAction> response,boolean isFollowersFeed,OnCompleteCallback callback){
+    protected Task<List<String>> getFeeds(CompletableFuture<UserAction> response,boolean isFollowersFeed){
+        Task<List<String>> task = new Task<>();
         List<String> list = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && callback != null) {
+        try {
             response.thenAccept(new Consumer<UserAction>() {
                 @Override
                 public void accept(UserAction userAction) {
-                    callback.onSuccess();
                     for (FeedUsersResponse feed : isFollowersFeed ? userAction.followersFeed() : userAction.followingFeed()) {
                         for (Profile user : feed.getUsers()) {
                             list.add(user.getUsername());
                         }
                     }
+                    task.value = list;
                 }
             }).exceptionally(new Function<Throwable, Void>() {
                 @Override
                 public Void apply(Throwable throwable) {
-                    callback.onFailed(throwable);
+                    task.exception = throwable;
                     return null;
                 }
             }).join();
-        } else {
-            try {
-                for (FeedUsersResponse feed : isFollowersFeed ? response.get().followersFeed() : response.get().followingFeed()) {
-                    for (Profile user : feed.getUsers()) {
-                        list.add(user.getUsername());
-                    }
-                }
-                if (callback != null)
-                    callback.onSuccess();
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-                if (callback != null)
-                    callback.onFailed(e);
-            }
+            return task;
+        } catch (CompletionException e){
+            return new Task<>(e);
         }
-        return list;
     }
 }
