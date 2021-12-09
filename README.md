@@ -28,7 +28,7 @@ This is an android library through which you can use instagram programatically. 
 In your app build.gradle
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyInsta:1'
+	        implementation 'com.github.ErrorxCode:EasyInsta:2.0'
 	}
 ```
 
@@ -45,14 +45,14 @@ dependencies {
 #### Create instagram object by logging in.
 ```
 try {
-    Instagram instagram = new Instagram("username","password");
+    Instagram insta = new Instagram("username","password");
 } catch (IGLoginException e) {
     if (e.getReason() == Reasons.INVALID_CREDENTIALS){
         // Credential are incorrect
-    } else if (e.getReason() == Reasons.CHALLENGE_REQUIRED){
-        // You have to login using another constructor because, Two-factor authentication is required.
+    } else if (e.getReason() == Reasons.REQUIRE_2_FACTOR_AUTHENTICATION){
+        // You have to login using static method because Two-factor authentication is required.
     } else {
-        // There might be other problem.
+        // There might be other REASON.
         e.printStackTrace();
     }
 }
@@ -77,16 +77,47 @@ login.setOnClickListener(new View.OnClickListener() {
 });
 ```
 
+#### Task - The result
+
+Each method returns a `Task` representing the response of the request. The resoponse either contain a value or an exception
+depending upon success and failure. You can use the task in 2 ways. Ony way is,
+```
+task.addOnCompleteListener(new Task.OnCompletionListener<String>() {
+    @Override
+    public void onComplete(Task<String> task) {
+        String value;
+        if (task.isSuccessful())
+            String = task.getValue();
+        else
+            task.getException().printStackTrace();
+    }
+});
+```
+another way is
+```
+task.addOnSuccessListener(new Task.OnSuccessListener<String>() {
+    @Override
+    public void onSuccess(String value) {
+        String followers = value;
+    }
+}).addOnFailureListener(new Task.OnFailureListener() {
+    @Override
+    public void onFailed(Throwable exception) {
+        exception.printStackTrace();
+    }
+});
+```
+
 #### Now let's post something...
 ```
-insta.addStory(new File("story.png"),callback);
-insta.post(new File("post.png"),"This is caption",callback);
+Task<String> task = instagram.addStory(new File("story.png"));
+Task<String task = instagram.postPhoto(new File("post.png"),"This is caption");
 ```
 
 #### Send direct message
 ```
-insta.directMessage("x__coder__x","This is message...",null);
-insta.directMessage("x__coder__x",new File("photo.jpg"),callback);
+instagram.directMessage("x__coder__x","This is message...",null);
+instagram.directMessage("x__coder__x",new File("photo.jpg"),callback);
 ```
 
 #### Follow / Unfollow / remove someone
