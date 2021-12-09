@@ -42,21 +42,39 @@ dependencies {
 
 ## API Reference
 
-#### Create instagram & callback object
+#### Create instagram object by logging in.
 ```
-Instagram insta = new Instagram("username","password");
-OnCompleteCallback callback = new OnCompleteCallback() {
-            @Override
-            public void onSuccess() {
-                System.out.println("Operation successful");
-            }
+try {
+    Instagram instagram = new Instagram("username","password");
+} catch (IGLoginException e) {
+    if (e.getReason() == Reasons.INVALID_CREDENTIALS){
+        // Credential are incorrect
+    } else if (e.getReason() == Reasons.CHALLENGE_REQUIRED){
+        // You have to login using another constructor because, Two-factor authentication is required.
+    } else {
+        // There might be other problem.
+        e.printStackTrace();
+    }
+}
+```
 
-            @Override
-            public void onFailed(Throwable e) {
-                e.printStackTrace();
-                System.out.println("Operation failed");
-            }
-        };
+#### Two factor login
+```
+Instagram instagram = Instagram.login2factor("username", "password", new Callable<String>() {
+    @Override
+    public String call() throws Exception {
+        // This method will wait until you call Instagram.verifyCode();
+	// You have to return the verification code.
+        return edittext.getText().toString();
+    }
+});
+
+login.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Instagram.verifyCode();  // This should be called within 5 minutes of code sent.
+    }
+});
 ```
 
 #### Now let's post something...
