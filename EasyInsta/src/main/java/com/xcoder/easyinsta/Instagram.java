@@ -1,24 +1,16 @@
 package com.xcoder.easyinsta;
 
-import android.os.Handler;
-import android.view.View;
-import android.widget.Button;
-
 import com.github.instagram4j.instagram4j.IGClient;
 import com.github.instagram4j.instagram4j.models.user.Profile;
 import com.github.instagram4j.instagram4j.models.user.User;
-import com.github.instagram4j.instagram4j.requests.accounts.AccountsChangeProfilePictureRequest;
 import com.github.instagram4j.instagram4j.requests.direct.DirectThreadsBroadcastRequest;
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsActionRequest;
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsPendingRequest;
-import com.github.instagram4j.instagram4j.requests.upload.RuploadPhotoRequest;
 import com.github.instagram4j.instagram4j.responses.IGResponse;
-import com.github.instagram4j.instagram4j.responses.accounts.AccountsUserResponse;
 import com.github.instagram4j.instagram4j.responses.accounts.LoginResponse;
 import com.github.instagram4j.instagram4j.responses.feed.FeedUsersResponse;
 import com.github.instagram4j.instagram4j.responses.media.MediaResponse;
 import com.github.instagram4j.instagram4j.utils.IGChallengeUtils;
-import com.xcoder.easyinsta.Task.OnCompleteCallback;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
-import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -386,7 +377,7 @@ public class Instagram {
      * Gets the pending follow requests. Empty list if none found but Never null.
      * @return A {@link Task} holding usernames of the requests.
      */
-    public @NotNull Task<List<String>> getFollowRequests(@Nullable OnCompleteCallback callback) {
+    public @NotNull Task<List<String>> getFollowRequests() {
         List<String> usernames = new ArrayList<>();
         Task<List<String>> task = new Task<>();
         CompletableFuture<FeedUsersResponse> response = client.sendRequest(new FriendshipsPendingRequest());
@@ -433,7 +424,7 @@ public class Instagram {
      * @param callback Callback that shows the success or failure of the request. This is optional (Nullable)
      * @return A {@link Task} holding profile picture of the user.
      */
-    public @Nullable Task<String> getProfilePicUrl(@NotNull String username, @Nullable OnCompleteCallback callback) {
+    public @Nullable Task<String> getProfilePicUrl(@NotNull String username) {
         Object object =  utils.getProfileMetadata(client.actions().users().findByUsername(username),"dp");
         Task<String> task = new Task<>();
 
@@ -488,7 +479,7 @@ public class Instagram {
      * @param callback Callback that shows the success or failure of the request. This is optional (Nullable)
      * @return A {@link Task} holding number of posts of the user.
      */
-    public Task<Integer> getPostCount(@NotNull String username, @Nullable OnCompleteCallback callback) {
+    public Task<Integer> getPostCount(@NotNull String username) {
         Object object =  utils.getProfileMetadata(client.actions().users().findByUsername(username),"post");
         Task<Integer> task = new Task<>();
 
@@ -498,5 +489,10 @@ public class Instagram {
             task.value = (int) object;
 
         return task;
+    }
+
+    public static void main(String[] args) {
+        Instagram instagram = null;
+        instagram.getProfilePicUrl("username",);
     }
 }
