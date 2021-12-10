@@ -144,7 +144,7 @@ public class Instagram {
      * @param directory The directory on the filesystem where the cache should be saved.
      * @throws InstagramException - if the provided file is not a directory or is not writable.
      */
-    private static void saveInstance(File directory) throws InstagramException {
+    public void saveInstance(File directory) throws InstagramException {
         try {
             if (directory.isDirectory())
                 client.serialize(new File(directory,"object"),new File(directory,"cookie"));
@@ -155,7 +155,7 @@ public class Instagram {
         }
     }
 
-    private static Instagram loadInstance(File directory){
+    public static Instagram loadInstance(File directory){
         try {
             if (directory.isDirectory())
                 return new Instagram(IGClient.deserialize(new File(directory,"object"),new File(directory,"cookie")));
