@@ -1,14 +1,17 @@
 
 # EasyInsta
-This is an android library through which you can use instagram programatically. You can say that this is a well optimize, will featured java wrapper of "Instagram graph API". You can direct messages, add stories, post photos, scrapping profiles and can do many more things with this library.
+An library through which you can use instagram programatically. You can say that this is a well optimize, will featured java wrapper of Instagram private API. You can send direct messages, add stories, post photos, scrap profiles and can do many more things with this library.
 
-![Banner](https://vinyl-state.com/wp-content/uploads/2020/12/instagram-logo2.jpg)
+Disclaimer ⚠: This API is private. Means that instagram has not documented or allowed others to use this API. If you are using this API then instagram can ban your account. **Developer will not be responsible for anything happend to your account**.
+
+![Banner](https://i.ytimg.com/vi/jhTuFxpzevI/maxresdefault.jpg)
 
 ## Features
 
 - Lightweight and Easy 2 use
 - No need api token
 - Supports **sending direct message** (Text & photos)
+- Supports **Login using proxy**
 - Supports **posting** (Only photo)
 - Supports **adding stories** (Only photo)
 - Supports **Following / Unfollowing others**
@@ -28,7 +31,7 @@ This is an android library through which you can use instagram programatically. 
 In your app build.gradle
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyInsta:2.0'
+	        implementation 'com.github.ErrorxCode:EasyInsta:v2.0'
 	}
 ```
 
@@ -43,7 +46,7 @@ dependencies {
 ## API Reference
 
 #### Create instagram object by logging in.
-```
+```java
 try {
     Instagram insta = new Instagram("username","password");
 } catch (IGLoginException e) {
@@ -59,7 +62,7 @@ try {
 ```
 
 #### Two factor login
-```
+```java
 Instagram instagram = Instagram.login2factor("username", "password", new Callable<String>() {
     @Override
     public String call() throws Exception {
@@ -81,7 +84,7 @@ login.setOnClickListener(new View.OnClickListener() {
 
 Each method returns a `Task` representing the response of the request. The resoponse either contain a value or an exception
 depending upon success and failure. You can use the task in 2 ways. Ony way is,
-```
+```java
 task.addOnCompleteListener(new Task.OnCompletionListener<String>() {
     @Override
     public void onComplete(Task<String> task) {
@@ -93,8 +96,8 @@ task.addOnCompleteListener(new Task.OnCompletionListener<String>() {
     }
 });
 ```
-another way is
-```
+another way is,
+```java
 task.addOnSuccessListener(new Task.OnSuccessListener<String>() {
     @Override
     public void onSuccess(String value) {
@@ -109,44 +112,64 @@ task.addOnSuccessListener(new Task.OnSuccessListener<String>() {
 ```
 
 #### Now let's post something...
-```
+```java
 Task<String> task = instagram.addStory(new File("story.png"));
 Task<String task = instagram.postPhoto(new File("post.png"),"This is caption");
 ```
 
 #### Send direct message
-```
-instagram.directMessage("x__coder__x","This is message...",null);
-instagram.directMessage("x__coder__x",new File("photo.jpg"),callback);
+```java
+Task<String> task = instagram.directMessage("x__coder__x","This is message...");
+Task<String> task = instagram.directMessage("x__coder__x",new File("photo.jpg"));
 ```
 
 #### Follow / Unfollow / remove someone
-```
-insta.follow("username2follow",callback);
-insta.unfollow("username2unfollow",callback);
-insta.removeFollower("username2remove",callback);
+```java
+instagram.follow("username2follow");
+instagram.unfollow("username2unfollow");
+instagram.removeFollower("username2remove");
 
 ```
 
 #### Accept or ignore follow request
-```
-insta.accept("username2accept",null);
-insta.ignore("username2ignore",null);
+```java
+instagram.accept("username2accept");
+instagram.ignore("username2ignore");
 ```
 
 #### Get followings / followers / counts
-```
-List<String> followers = insta.getFollowers("username",callback);
-List<String> followings = insta.getFollowings("username",callback);
-int followersCount = insta.getFollowersCount("username",null);
-int followingCount = insta.getFollowingsCount("username",null);
-int postCount = insta.getPostCount("username",callback);
+```java
+Task<List<String>> followersTask = instagram.getFollowers("username");
+Task<List<String>> followingTask = instagram.getFollowings("username");
+Task<List<Integer>> followersCountTask = instagram.getFollowersCount("username");
+Task<List<Integer>> followingsCountTask = instagram.getFollowingsCount("username");
+Task<List<Integer>> postCountTask = instagram.getPostCount("username");
 ```
 
 #### Get profile metadata
-```
-String bio = insta.getBio("username",callback);
-String url = insta.getProfilePicUrl("username",callback);
+```java
+instagram.getBio("username").addOnCompleteListener(new Task.OnCompletionListener<String>() {
+            @Override
+            public void onComplete(Task<String> task) {
+                String bio;
+                if (task.isSuccessful())
+                    bio = task.getValue();
+                else 
+                    task.getException().printStackTrace();
+            }
+        });
+	
+instagram.getProfilePicUrl("username").addOnSuccessListener(new Task.OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String value) {
+                String url = value;
+            }
+        }).addOnFailureListener(new Task.OnFailureListener() {
+            @Override
+            public void onFailed(Throwable exception) {
+                exception.printStackTrace();
+            }
+        });
 ```
 ## Documentation
 
@@ -157,20 +180,15 @@ String url = insta.getProfilePicUrl("username",callback);
 
 #### [Q.1] Can we use this library to make bots ?
 
-Answer. No. Instagram don't allow to make bots with the use of this APIs.
+Answer. No. Instagram don't allow to make bots with the use of APIs.
 
-#### [Q.2] Can we use this to download stories or posts ?
+#### [Q.2] Can we download stories or posts using this API ?
 
-Answer. Yes. But its not currently supported.
+Answer. No, Not currently. May be possible in future.
 
-#### [Q.3] Does use of this library requires any tokens or other things  ?
+#### [Q.3] Does use of this library requires any tokens or other keys ?
 
 Answer. No. You only need to have username and password of the account.
-
-#### [Q.4] Can we log in two-factor-authenticated accounts ?
-
-Answer. Yes. Just pass a callback as thired argument while initializing the class.
-
 
 
 ## Contributing
