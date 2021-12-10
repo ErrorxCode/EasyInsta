@@ -4,10 +4,12 @@ import com.github.instagram4j.instagram4j.IGClient;
 import com.github.instagram4j.instagram4j.models.user.Profile;
 import com.github.instagram4j.instagram4j.models.user.User;
 import com.github.instagram4j.instagram4j.requests.direct.DirectThreadsBroadcastRequest;
+import com.github.instagram4j.instagram4j.requests.feed.FeedUserStoryRequest;
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsActionRequest;
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsPendingRequest;
 import com.github.instagram4j.instagram4j.responses.IGResponse;
 import com.github.instagram4j.instagram4j.responses.accounts.LoginResponse;
+import com.github.instagram4j.instagram4j.responses.feed.FeedUserStoryResponse;
 import com.github.instagram4j.instagram4j.responses.feed.FeedUsersResponse;
 import com.github.instagram4j.instagram4j.responses.media.MediaResponse;
 import com.github.instagram4j.instagram4j.utils.IGChallengeUtils;
@@ -256,7 +258,7 @@ public class Instagram {
      * @param caption Caption for the post
      * @return A {@link Task} holding response of the request.
      */
-    public Task<String> postPhoto(@NotNull File photo, @Nullable String caption) {
+    public Task<String> postPhoto(@NotNull File photo, String caption) {
         if (photo.getName().endsWith(".mp4"))
             throw new InstagramException("Uploading or sending video is not currently supported",Reasons.UNSUPPORTED_FILE_FORMAT);
 
@@ -405,7 +407,7 @@ public class Instagram {
      * @param username The username of the account.
      * @return A {@link Task} holding bio of the user.
      */
-    public @Nullable Task<String> getBio(@NotNull String username) {
+    public Task<String> getBio(@NotNull String username) {
        Object object =  utils.getProfileMetadata(client.actions().users().findByUsername(username),"bio");
        Task<String> task = new Task<>();
 
@@ -421,10 +423,9 @@ public class Instagram {
     /**
      * Gets the profile photo link of the account associated with the username provided.
      * @param username The username of the account.
-     * @param callback Callback that shows the success or failure of the request. This is optional (Nullable)
      * @return A {@link Task} holding profile picture of the user.
      */
-    public @Nullable Task<String> getProfilePicUrl(@NotNull String username) {
+    public Task<String> getProfilePicUrl(@NotNull String username) {
         Object object =  utils.getProfileMetadata(client.actions().users().findByUsername(username),"dp");
         Task<String> task = new Task<>();
 
@@ -476,7 +477,7 @@ public class Instagram {
     /**
      * Gets the post count of the account associated with the username provided.
      * @param username The username of the account.
-     * @param callback Callback that shows the success or failure of the request. This is optional (Nullable)
+
      * @return A {@link Task} holding number of posts of the user.
      */
     public Task<Integer> getPostCount(@NotNull String username) {
@@ -490,9 +491,3 @@ public class Instagram {
 
         return task;
     }
-
-    public static void main(String[] args) {
-        Instagram instagram = null;
-        instagram.getProfilePicUrl("username",);
-    }
-}
