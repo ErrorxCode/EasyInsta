@@ -31,7 +31,7 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 In your app build.gradle
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyInsta:v2.0'
+	        implementation 'com.github.ErrorxCode:EasyInsta:2.1'
 	}
 ```
 
@@ -170,6 +170,17 @@ instagram.getProfilePicUrl("username").addOnSuccessListener(new Task.OnSuccessLi
                 exception.printStackTrace();
             }
         });
+```
+
+### Serialization & Deserialization.
+You can also save `Instagram` object instance so you don't have to login each time program runs. (Serialization)
+```
+Instagram instagram = new Instagram("username","password");
+instagram.saveInstance(getCacheDir());  // Pass the cache direcoty of your app.
+```
+and then use that saved object everytime. (Deserialization)
+```
+Instagram instagram = Instagram.loadInstance(getCacheDir());
 ```
 ## Documentation
 
