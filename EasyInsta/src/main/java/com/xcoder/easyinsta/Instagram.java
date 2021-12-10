@@ -408,15 +408,15 @@ public class Instagram {
      * @return A {@link Task} holding bio of the user.
      */
     public Task<String> getBio(@NotNull String username) {
-       Object object =  utils.getProfileMetadata(client.actions().users().findByUsername(username),"bio");
-       Task<String> task = new Task<>();
+        Object object =  utils.getProfileMetadata(client.actions().users().findByUsername(username),"bio");
+        Task<String> task = new Task<>();
 
-       if (object instanceof Throwable)
-           task.exception = (Throwable) object;
-       else
-           task.value = (String) object;
+        if (object instanceof Throwable)
+            task.exception = (Throwable) object;
+        else
+            task.value = (String) object;
 
-       return task;
+        return task;
     }
 
 
@@ -491,3 +491,4 @@ public class Instagram {
 
         return task;
     }
+}
