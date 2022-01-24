@@ -1,10 +1,12 @@
 package com.xcoder.easyinsta;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class Task<T> {
     protected T value;
     protected Throwable exception;
 
-    protected Task(Exception e) {
+    public Task(Exception e) {
         exception = e;
     }
 
@@ -28,6 +30,7 @@ public final class Task<T> {
         callback.onComplete(this);
     }
 
+    @NotNull
     public T getValue() {
         return value;
     }
