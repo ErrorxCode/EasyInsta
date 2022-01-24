@@ -1,0 +1,13 @@
+include ':EasyWidgets'
+include ':FileScrapper'
+include ':PUBG_Utils'
+include ':app'
+rootProject.name = "Libraries"
+include ':EasyPreference'
+include ':PhoneVerification'
+include ':ModernOnboarding'
+include ':CloremDB'
+include ':EasyInsta'
+include ':ClorastoreDB'
+include ':Clorabase'
+include ':Console'
