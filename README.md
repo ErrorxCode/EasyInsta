@@ -2,7 +2,7 @@
 # EasyInsta
 An library through which you can use instagram programatically. You can say that this is a well optimize, will featured java wrapper of Instagram private API. You can send direct messages, add stories, post photos, scrap profiles and can do many more things with this library.
 
-Disclaimer ⚠: This API is private. Means that instagram has not documented or allowed others to use this API. If you are using this API then instagram can ban your account. **Developer will not be responsible for anything happend to your account**.
+Disclaimer ⚠: This API is private. Means that instagram has not documented or allowed others to use this API. If you are using this API then instagram can ban your account. **Developers will not be responsible for anything happend to your account**.
 
 ![Banner](https://i.ytimg.com/vi/jhTuFxpzevI/maxresdefault.jpg)
 
@@ -10,10 +10,14 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 
 - Lightweight and Easy 2 use
 - No need api token
-- Supports **sending direct message** (Text & photos)
+- Supports **Sending messages** (Text & photos)
+- Supports **Getting/fetching messages** (only Text)
+- Supports **Deleting message**
+- Supports **Spamming DMs**
 - Supports **Login using proxy**
-- Supports **posting** (Only photo)
-- Supports **adding stories** (Only photo)
+- Supports **Login using cache/without credentials**
+- Supports **Posting** (Only photo)
+- Supports **Adding stories** (Only photo)
 - Supports **Following / Unfollowing others**
 - Supports **Acception / Ignoring follow request**
 - Supports **Scrapping followings and followers**
@@ -31,7 +35,7 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 In your app build.gradle
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyInsta:2.1'
+	        implementation 'com.github.ErrorxCode:EasyInsta:2.5.0'
 	}
 ```
 
@@ -43,159 +47,33 @@ dependencies {
  - [API Policies](https://developers.facebook.com/devpolicy/)
 
 
-## API Reference
-
-#### Create instagram object by logging in.
-```java
-try {
-    Instagram insta = new Instagram("username","password");
-} catch (IGLoginException e) {
-    if (e.getReason() == Reasons.INVALID_CREDENTIALS){
-        // Credential are incorrect
-    } else if (e.getReason() == Reasons.REQUIRE_2_FACTOR_AUTHENTICATION){
-        // You have to login using static method because Two-factor authentication is required.
-    } else {
-        // There might be other REASON.
-        e.printStackTrace();
-    }
-}
+## Its easy :-)
 ```
-
-#### Two factor login
-```java
-Instagram instagram = Instagram.login2factor("username", "password", new Callable<String>() {
-    @Override
-    public String call() throws Exception {
-        // This method will wait until you call Instagram.verifyCode();
-	// You have to return the verification code.
-        return edittext.getText().toString();
-    }
-});
-
-login.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Instagram.verifyCode();  // This should be called within 5 minutes of code sent.
-    }
+Instagram.login("username","password").actions().doSomething().addOnCompleteListener(task -> {
+    if (task.isSuccessful())
+        System.out.println("Success");
+    else 
+        task.getException().printStackTrace();
 });
 ```
 
-#### Task - The result
 
-Each method returns a `Task` representing the response of the request. The resoponse either contain a value or an exception
-depending upon success and failure. You can use the task in 2 ways. Ony way is,
-```java
-task.addOnCompleteListener(new Task.OnCompletionListener<String>() {
-    @Override
-    public void onComplete(Task<String> task) {
-        String value;
-        if (task.isSuccessful())
-            String = task.getValue();
-        else
-            task.getException().printStackTrace();
-    }
-});
-```
-another way is,
-```java
-task.addOnSuccessListener(new Task.OnSuccessListener<String>() {
-    @Override
-    public void onSuccess(String value) {
-        String followers = value;
-    }
-}).addOnFailureListener(new Task.OnFailureListener() {
-    @Override
-    public void onFailed(Throwable exception) {
-        exception.printStackTrace();
-    }
-});
-```
-
-#### Now let's post something...
-```java
-Task<String> task = instagram.addStory(new File("story.png"));
-Task<String task = instagram.postPhoto(new File("post.png"),"This is caption");
-```
-
-#### Send direct message
-```java
-Task<String> task = instagram.directMessage("x__coder__x","This is message...");
-Task<String> task = instagram.directMessage("x__coder__x",new File("photo.jpg"));
-```
-
-#### Follow / Unfollow / remove someone
-```java
-instagram.follow("username2follow");
-instagram.unfollow("username2unfollow");
-instagram.removeFollower("username2remove");
-
-```
-
-#### Accept or ignore follow request
-```java
-instagram.accept("username2accept");
-instagram.ignore("username2ignore");
-```
-
-#### Get followings / followers / counts
-```java
-Task<List<String>> followersTask = instagram.getFollowers("username");
-Task<List<String>> followingTask = instagram.getFollowings("username");
-Task<List<Integer>> followersCountTask = instagram.getFollowersCount("username");
-Task<List<Integer>> followingsCountTask = instagram.getFollowingsCount("username");
-Task<List<Integer>> postCountTask = instagram.getPostCount("username");
-```
-
-#### Get profile metadata
-```java
-instagram.getBio("username").addOnCompleteListener(new Task.OnCompletionListener<String>() {
-            @Override
-            public void onComplete(Task<String> task) {
-                String bio;
-                if (task.isSuccessful())
-                    bio = task.getValue();
-                else 
-                    task.getException().printStackTrace();
-            }
-        });
-	
-instagram.getProfilePicUrl("username").addOnSuccessListener(new Task.OnSuccessListener<String>() {
-            @Override
-            public void onSuccess(String value) {
-                String url = value;
-            }
-        }).addOnFailureListener(new Task.OnFailureListener() {
-            @Override
-            public void onFailed(Throwable exception) {
-                exception.printStackTrace();
-            }
-        });
-```
-
-### Serialization & Deserialization.
-You can also save `Instagram` object instance so you don't have to login each time program runs. (Serialization)
-```
-Instagram instagram = new Instagram("username","password");
-instagram.saveInstance(getCacheDir());  // Pass the cache direcoty of your app.
-```
-and then use that saved object everytime. (Deserialization)
-```
-Instagram instagram = Instagram.loadInstance(getCacheDir());
-```
 ## Documentation
 
 [Java docs](https://errorxcode.github.io/docs/easyinsta/index.html)
+
+[Guide](https://github.com/ErrorxCode/EasyInsta/wiki)
 
 
 ## FAQ
 
 #### [Q.1] Can we use this library to make bots ?
 
-Answer. No. Instagram don't allow to make bots with the use of APIs.
+Answer. Yes. But Instagram don't allow to make bots with their officail graph APIs. Altho This is not the officail api, but you should still follow the usage limits to prevent detection.
 
 #### [Q.2] Can we download stories or posts using this API ?
 
-Answer. No, Not currently. May be possible in future.
+Answer. No, Use [Instagram basic display API](https://developers.facebook.com/docs/instagram-basic-display-api/) for that.
 
 #### [Q.3] Does use of this library requires any tokens or other keys ?
 
@@ -210,6 +88,6 @@ Contributions are always welcome! Please make a pull request regarding any modif
 ## Support
 
 For support, follow us on [instagram](https://www.instagram.com/andro.developer).
- Also subscribe our [youtube](https://www.youtube.com/channel/UCcQS2F6LXAyuE_RXoIQxkMA) channel.
- It would be nice if you give this repo a star.
+Also subscribe our [youtube](https://www.youtube.com/channel/UCcQS2F6LXAyuE_RXoIQxkMA) channel.
+It would be nice if you give this repo a star.
 
