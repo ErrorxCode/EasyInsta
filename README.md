@@ -6,9 +6,9 @@
   <a href="https://www.instagram.com/x__coder__x/"><img alt="Instagram - x__coder__" src="https://img.shields.io/badge/Instagram-x____coder____x-lightgrey"></a>
   <a href="#"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ErrorxCode/OTP-Verification-Api?style=social"></a>
   </p>
-An library through which you can use instagram programatically. You can say that this is a well optimize, will featured java wrapper of Instagram private API. You can send direct messages, add stories, post photos, scrap profiles and can do many more things with this library.
+An library through which you can use instagram programatically. You can say that this is a well optimize, will featured wrapper of instagram4j library. You can send direct messages, add stories, post photos, scrap profiles and can do many more things with this library.
 
-Disclaimer ⚠: This API is private. Means that instagram has not documented or allowed others to use this API. If you are using this API then instagram can ban your account. **Developers will not be responsible for anything happend to your account**.
+Disclaimer ⚠: This API is private. Means that instagram has not documented or allowed others to use this API. If you are using this API **harshly** then instagram may ban your account. **Developers will not be responsible for anything happend to your account**.
 
 ![Banner](https://i.ytimg.com/vi/jhTuFxpzevI/maxresdefault.jpg)
 
@@ -20,8 +20,8 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 - Supports **Getting/fetching messages** (only Text)
 - Supports **Deleting message**
 - Supports **Spamming DMs**
-- Supports **Login using proxy**
-- Supports **Login using cache/without credentials**
+- Supports **Realtime direct messages listener**
+- Supports **Login using cache/saving sessions**
 - Supports **Posting** (Only photo)
 - Supports **Adding stories** (Only photo)
 - Supports **Following / Unfollowing others**
@@ -41,7 +41,7 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 In your app build.gradle
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyInsta:2.5.0'
+	        implementation 'com.github.ErrorxCode:EasyInsta:2.7.1'
 	}
 ```
 
@@ -87,13 +87,13 @@ Answer. No. You only need to have username and password of the account.
 
 
 ## Contributing
+Contributions are always welcome! 
 
-Contributions are always welcome! Please make a pull request regarding any modification or feature request.
+There is always a scope of improvement in this library. What you can do is you can add more methods from [instagram4j]() library.
 
 
 ## Support
 
 For support, follow us on [instagram](https://www.instagram.com/andro.developer).
-Also subscribe our [youtube](https://www.youtube.com/channel/UCcQS2F6LXAyuE_RXoIQxkMA) channel.
 It would be nice if you give this repo a star.
 
