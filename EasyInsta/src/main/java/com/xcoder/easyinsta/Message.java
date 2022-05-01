@@ -2,13 +2,21 @@ package com.xcoder.easyinsta;
 
 import com.github.instagram4j.instagram4j.IGClient;
 import com.github.instagram4j.instagram4j.requests.direct.DirectThreadsBroadcastRequest;
+import com.xcoder.easyinsta.interfaces.OnNotificationListener;
+import com.xcoder.easyinsta.interfaces.OnProgressListener;
+import com.xcoder.tasks.AsyncTask;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+/**
+ * Message that is received when a new direct message is received. This class contains info about the new message.
+ */
 public final class Message {
     private final IGClient client;
     public final String text;
@@ -29,7 +37,7 @@ public final class Message {
     }
 
     @Nullable
-    public String getSenderUsername(){
+    public String getSenderUsername() {
         try {
             return client.actions().users().info(userId).get(5, TimeUnit.SECONDS).getUsername();
         } catch (InterruptedException | ExecutionException | TimeoutException e) {

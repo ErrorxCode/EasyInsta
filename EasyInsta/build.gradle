@@ -12,5 +12,5 @@ dependencies {
     implementation files('libs/instagram4j-realtime.jar')
     implementation 'org.jetbrains:annotations:15.0'
     implementation 'com.github.instagram4j:instagram4j:2.0.7'
-    api 'com.github.ErrorxCode:AsyncTask:1.0'
+    api project(':AsyncTask')
 }

@@ -136,7 +136,7 @@ public class Instagram {
 
 
     /**
-     * Returns pre-logged in instagram instance from the cache. If no cache exist, It first perform login & then cache it so it can be used in future.
+     * Returns pre-logged in instagram instance from the cache. If no cache exist, It first perform login and then cache it so it can be used in future.
      *
      * @param dir      The cache directory of the application.
      * @param username Username of the account
@@ -240,7 +240,7 @@ public class Instagram {
 
 
     /**
-     * This class includes all the methods related to chat & messaging.
+     * This class includes all the methods related to chat and messaging.
      */
     public final class Direct {
 
@@ -250,6 +250,7 @@ public class Instagram {
          * Sends a direct message to a user
          *
          * @param message The text to send.
+         * @param username The user to send the message to.
          * @return A {@link AsyncTask} indication success or failure of the method
          */
         public AsyncTask<Void> directMessage(@NotNull String username,@NotNull String message) {
@@ -266,6 +267,7 @@ public class Instagram {
          * Sends a photo to the user.
          *
          * @param photo The photo to send.
+         * @param username The user to send the message to.
          * @return A {@link AsyncTask} indication success or failure of the request
          */
         public AsyncTask<Void> directMessage(@NotNull String username,@NotNull File photo) {
@@ -282,7 +284,7 @@ public class Instagram {
 
         /**
          * Marks message as seen that was sent by the username.
-         *
+         * @param username The user to see the message of.
          * @return A {@link AsyncTask} indication success or failure of the request
          */
         @NotNull
@@ -299,6 +301,7 @@ public class Instagram {
          * Retrieve messages from a particular chat from last till number specified.
          *
          * @param howMany  The number of messages to get. (including recipient chat). 0 for all
+         * @param username The user to get the message from.
          * @param listener A listener for tracking progress. only works when count > 20
          * @return A {@link AsyncTask} holding list of messages.
          * @throws IllegalArgumentException if howMany is negative.
@@ -320,7 +323,7 @@ public class Instagram {
 
         /**
          * Retrieve messages from a particular chat from a particular message till last.
-         *
+         * @param username The user to get the message from.
          * @param fromMessage The message from where to start fetching messages. This is case-sensitive
          * @param frequency   If 'fromMessage' is occurred multiple time, then pass the no. from where to consider.
          *                    For example, To retrieve messages from 'hey' and if there are 3 more same messages (exact equal) like 'hey'
@@ -353,7 +356,7 @@ public class Instagram {
          * @return A {@link AsyncTask} indication success or failure of the request
          */
         @NotNull
-        public AsyncTask<Void> groupMessage(@NotNull String username,@NotNull String message, @NotNull String adminUsername) {
+        public AsyncTask<Void> groupMessage(@NotNull String message, @NotNull String adminUsername) {
             return AsyncTask.callAsync(() -> {
                 List<IGThread> threads = client.sendRequest(new DirectInboxRequest()).get().getInbox().getThreads();
                 Long pk = client.actions().users().findByUsername(adminUsername).get().getUser().getPk();
@@ -377,7 +380,7 @@ public class Instagram {
          * @return A {@link AsyncTask} indication success or failure of the request
          */
         @NotNull
-        private AsyncTask<Void> createGroup(@NotNull String username,@NotNull String groupName, @NotNull String... usernames) {
+        private AsyncTask<Void> createGroup(@NotNull String groupName, @NotNull String... usernames) {
             String[] pks = new String[usernames.length];
             return AsyncTask.callAsync(() -> {
                 try {
@@ -423,11 +426,11 @@ public class Instagram {
          * @param messages      list of String containing messages to sent. a random message picked will be sent from this list.
          * @param callback      Callback indication success and failure of each message.
          */
-        public void spamGroup(@NotNull String username,int count, @NotNull String adminUsername, @NotNull String[] messages, @NotNull OnMessageActionCallback callback) {
+        public void spamGroup(int count, @NotNull String adminUsername, @NotNull String[] messages, @NotNull OnMessageActionCallback callback) {
             for (int i = 0; i < count; i++) {
                 String message = messages[new Random().nextInt(messages.length)];
                 callback.onProgress(i * 100 / count);
-                groupMessage(username,message,adminUsername).setOnCompleteCallback(task -> {
+                groupMessage(message,adminUsername).setOnCompleteCallback(task -> {
                     if (task.isSuccessful)
                         callback.onSuccess(message);
                     else
@@ -439,7 +442,7 @@ public class Instagram {
 
         /**
          * Deletes the messages from the last till the particular number.
-         *
+         * @param username The user to to delete messages from.
          * @param howMany  The no. of messages (including recipient message) to delete. For example,
          *                 if there are last 2 message from him/her and then 3 messages from you,
          *                 so you have to pass 5 here to delete your 3 messages. Pass 0 to delete all.
@@ -462,6 +465,13 @@ public class Instagram {
             }
         }
 
+        /**
+         * Starts deleting the messages from the exact 'message' that was sent bu you.
+         * @param username The user to to delete messages from.
+         * @param fromMessage The message to start deleting from.
+         * @param frequency if the 'fromMessage' occurred more then 1 time, pass the number from where to consider. Otherwise pass 0.
+         * @param callback The callback indication success,failure and progress of the operation.
+         */
         public void deleteMessagesFrom(@NotNull String username,@NotNull String fromMessage, int frequency, @Nullable OnMessageActionCallback callback) {
             callback = callback == null ? new OnMessageActionCallback() {
                 @Override
@@ -493,6 +503,10 @@ public class Instagram {
             }
         }
 
+        /**
+         * Starts listening for new messages.
+         * @param listener The listener to call when new messages are received.
+         */
         public void attachNotificationListener(@NotNull OnNotificationListener listener) {
             IGRealtimeClient realtimeClient = new IGRealtimeClient(client, packet -> {
                 try {
@@ -518,6 +532,10 @@ public class Instagram {
             thread.start();
         }
 
+        /**
+         * Stops listening for new messages.
+         * @throws NullPointerException if the listener was never attached.
+         */
         public void detectNotificationListener() {
             thread.stop();
         }
@@ -558,7 +576,7 @@ public class Instagram {
 
         /**
          * Scraps 100 followers of the account associated with the username. Empty list if none found but Never null.
-         *
+         * @param username The user to get the followers from.
          * @return A {@link AsyncTask} holding list of the followers.
          */
         public @NotNull
@@ -569,7 +587,7 @@ public class Instagram {
 
         /**
          * Scraps 100 followings of the account associated with the provided username. Empty list if none found but Never null.
-         *
+         * @param username The user to get the followings from.
          * @return A {@link AsyncTask} holding list of the followings.
          */
         public AsyncTask<List<String>> getFollowings(@NotNull String username) {
@@ -579,10 +597,9 @@ public class Instagram {
 
         /**
          * Gets the pending follow requests of yours.
-         *
          * @return A {@link AsyncTask} holding usernames of the requests.
          */
-        public AsyncTask<List<String>> getFollowRequests(@NotNull String username) {
+        public AsyncTask<List<String>> getFollowRequests() {
             return AsyncTask.callAsync(() -> {
                 List<String> usernames = new ArrayList<>();
                 FeedUsersResponse feedUsersResponse = client.sendRequest(new FriendshipsPendingRequest()).get(5, TimeUnit.SECONDS);
@@ -596,7 +613,7 @@ public class Instagram {
 
         /**
          * Gets the bio of the account associated with the provided username.
-         *
+         * @param username The user to get the bio from.
          * @return A {@link AsyncTask} holding bio of the user.
          */
         public AsyncTask<String> getBio(@NotNull String username) {
@@ -606,7 +623,7 @@ public class Instagram {
 
         /**
          * Gets the profile photo link of the account associated with the username provided.
-         *
+         * @param username The user to get the DP from.
          * @return A {@link AsyncTask} holding url of profile picture of the user.
          */
         public AsyncTask<String> getProfilePicUrl(@NotNull String username) {
@@ -616,7 +633,7 @@ public class Instagram {
 
         /**
          * Gets the follower count of the account associated with the username.
-         *
+         * @param username The user to get the followers from.
          * @return A {@link AsyncTask} holding number of followers of the user.
          */
         public AsyncTask<Integer> getFollowersCount(@NotNull String username) {
@@ -626,7 +643,7 @@ public class Instagram {
 
         /**
          * Gets the followings count of the account associated with the username provided.
-         *
+         * @param username The user to get the followings from.
          * @return A {@link AsyncTask} holding number of followings of the user.
          */
         public AsyncTask<Integer> getFollowingsCount(@NotNull String username) {
@@ -636,7 +653,7 @@ public class Instagram {
 
         /**
          * Gets the post count of the account associated with the username provided.
-         *
+         * @param username The user to get the posts count from.
          * @return A {@link AsyncTask} holding number of posts of the user.
          */
         public AsyncTask<Integer> getPostCount(@NotNull String username) {
