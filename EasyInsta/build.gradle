@@ -1,0 +1,16 @@
+plugins {
+    id 'java-library'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+}
+
+dependencies {
+
+    implementation files('libs/instagram4j-realtime.jar')
+    implementation 'org.jetbrains:annotations:15.0'
+    implementation 'com.github.instagram4j:instagram4j:2.0.7'
+    api project(':AsyncTask')
+}
