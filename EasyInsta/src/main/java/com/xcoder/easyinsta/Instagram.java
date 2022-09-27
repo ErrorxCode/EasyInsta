@@ -109,18 +109,7 @@ public class Instagram {
             return new Instagram(IGClient.builder()
                     .username(username)
                     .password(password)
-                    .onTwoFactor(new IGClient.Builder.LoginHandler() {
-                        @Override
-                        public LoginResponse accept(IGClient client, LoginResponse t) {
-                            return IGChallengeUtils.resolveTwoFactor(client, t, new Callable<String>() {
-                                @Override
-                                public String call() throws Exception {
-                                    // have to implement
-                                    return null;
-                                }
-                            });
-                        }
-                    }).login());
+                    .onTwoFactor((client, t) -> IGChallengeUtils.resolveTwoFactor(client, t, callback)).login());
         } catch (com.github.instagram4j.instagram4j.exceptions.IGLoginException e) {
             e.printStackTrace();
             if (e.getMessage().contains("few minutes"))
@@ -152,6 +141,32 @@ public class Instagram {
                 return new Instagram(IGClient.deserialize(client, cookie));
             else {
                 Instagram instagram = login(username, password);
+                instagram.client.serialize(client, cookie);
+                return instagram;
+            }
+        } catch (ClassNotFoundException | IOException e) {
+            throw new InstagramException(e.getLocalizedMessage(), Reasons.CACHING_ERROR);
+        }
+    }
+
+     /**
+     * Returns pre-logged in instagram instance from the cache. If no cache exist, It first perform login and then cache it so it can be used in future.
+     *
+     * @param dir      The cache directory of the application.
+     * @param username Username of the account
+     * @param password Password of the account
+     * @param callback The callback that will be invoked when verification code is sent. This will wait until you call. You have to return the verification code.
+     * @return {@link Instagram} instance.
+     * @throws IGLoginException If the dir is not a directory or if an IO error occured while serializing/deserializing the class.
+     */
+    public static Instagram loginOrCache2factor(@NotNull File dir, @NotNull String username, @NotNull String password, @NotNull Callable<String> callback) throws IGLoginException {
+        try {
+            File client = new File(dir, "IGClient.ser");
+            File cookie = new File(dir, "IGLoginSession.ser");
+            if (client.exists() && cookie.exists())
+                return new Instagram(IGClient.deserialize(client, cookie));
+            else {
+                Instagram instagram = login2factor(username, password, callback);
                 instagram.client.serialize(client, cookie);
                 return instagram;
             }
