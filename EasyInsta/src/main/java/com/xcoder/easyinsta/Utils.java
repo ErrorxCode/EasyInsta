@@ -73,7 +73,7 @@ class Utils {
 
     @NotNull
     protected IGThread getThread(String username) throws ExecutionException, InterruptedException {
-        List<IGThread> threads = client.sendRequest(new DirectInboxRequest()).get().getInbox().getThreads();
+        List<IGThread> threads = client.sendRequest(new DirectInboxRequest().limit(100)).get().getInbox().getThreads();
         for (IGThread thread : threads)
             for (Profile user : thread.getUsers()) {
                 if (user.getUsername().equals(username)) {
