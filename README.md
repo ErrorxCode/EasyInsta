@@ -3,7 +3,7 @@
 <p align="left">
   <a href="#"><img alt="Languages-Java" src="https://img.shields.io/badge/Language-Java-1DA1F2?style=flat-square&logo=java"></a>
   <a href="#"><img alt="Version" src="https://jitpack.io/v/ErrorxCode/EasyInsta.svg"></a>
-  <a href="https://www.instagram.com/x__coder__x/"><img alt="Instagram - x__coder__" src="https://img.shields.io/badge/Instagram-x____coder____x-lightgrey"></a>
+  <a href="https://www.instagram.com/x0.rahil/"><img alt="Instagram - x__coder__" src="https://img.shields.io/badge/Instagram-x0.rahil-lightgrey"></a>
   <a href="#"><img alt="Downloads" src="https://jitpack.io/v/ErrorxCode/WebWorker/month.svg"></a>
   <a href="#"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ErrorxCode/EasyInsta?style=social"></a>
   </p>
@@ -17,17 +17,21 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 
 - Lightweight and Easy 2 use
 - No need api token
-- Supports **Sending messages** (Text & photos)
-- Supports **Getting/fetching messages** (only Text)
+- Supports **Sending messages**
+- Supports **Getting/fetching messages**
 - Supports **Deleting message**
 - Supports **Spamming DMs**
-- Supports **Realtime direct messages listener**
+- Supports **_Realtime direct messages listener_**
 - Supports **Login using cache/saving sessions**
-- Supports **Posting** (Only photo)
-- Supports **Adding stories** (Only photo)
+- Supports **Posting**
+- Supports **Adding stories**
 - Supports **Following / Unfollowing others**
 - Supports **Acception / Ignoring follow request**
 - Supports **Scrapping followings and followers**
+- Supports **Getting profile data**
+- Supports **Liking/commenting on post**
+- Supports **Fetching feeds/timeline post**
+- 
 
 ## Implimentation
  In your project build.gradle
@@ -42,7 +46,7 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 In your app build.gradle
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyInsta:2.7.2'
+	        implementation 'com.github.ErrorxCode:EasyInsta:2.8'
 	}
 ```
 
@@ -90,11 +94,11 @@ Answer. No. You only need to have username and password of the account.
 ## Contributing
 Contributions are always welcome! 
 
-There is always a scope of improvement in this library. What you can do is you can add more methods from [instagram4j]() library.
+There is always a scope of improvement in this library. What you can do is you can add more endpoints from [instagram4j](https://github.com/instagram4j/instagram4j) library.
 
 
 ## Support
 
-For support, follow us on [instagram](https://www.instagram.com/andro.developer).
+For support, follow us on [instagram](https://www.instagram.com/x0.rahil).
 It would be nice if you give this repo a star.
 
