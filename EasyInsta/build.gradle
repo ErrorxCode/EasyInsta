@@ -8,10 +8,9 @@ java {
 }
 
 dependencies {
-
     implementation files('libs/instagram4j-realtime.jar')
     implementation 'org.jetbrains:annotations:15.0'
     implementation 'com.github.instagram4j:instagram4j:2.0.7'
     implementation 'com.github.ErrorxCode:JSON-java-port:20220320'
-    api project(':AsyncTask')
+    implementation 'com.github.ErrorxCode:AsyncTask:1.0'
 }
