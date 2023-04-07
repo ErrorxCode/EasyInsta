@@ -46,9 +46,10 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 In your app build.gradle
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyInsta:2.8'
+	        implementation 'com.github.ErrorxCode:EasyInsta:v2.8'
 	}
 ```
+**Note : `v2.8` is the latest build, don't go for `2.8`**
 
 
 
