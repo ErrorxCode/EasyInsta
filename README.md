@@ -47,6 +47,7 @@ In your app build.gradle
 ```groovy
 dependencies {
 	        implementation 'com.github.ErrorxCode:EasyInsta:v2.8'
+		implementation 'com.github.ErrorxCode:AsyncTask:1.0'
 	}
 ```
 **Note : `v2.8` is the latest build, don't go for `2.8`**
