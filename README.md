@@ -13,6 +13,11 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 
 ![Banner](https://i.ytimg.com/vi/jhTuFxpzevI/maxresdefault.jpg)
 
+
+# **Announcement** 🔊
+A brand new library is been planed to be created as replacement of **instagram4j**. The new library will be more easy, optimised, and safe (less challenges) to use.
+The library will be based on the privaye api of **web version** of instagram. If you want to contribute on making of that new lib, please ping me at @x0.rahil on instagram. _Little help is appreciated_ 💖
+
 ## Features
 
 - Lightweight and Easy 2 use
@@ -72,7 +77,7 @@ Instagram.login("username","password").actions().doSomething().addOnCompleteList
 
 ## Documentation
 
-[Java docs](https://errorxcode.github.io/docs/easyinsta/index.html)
+[Java docs](https://errorxcode.github.io/docs/easyinsta/index.html) [OUTDATED]
 
 [Guide](https://github.com/ErrorxCode/EasyInsta/wiki)
 
@@ -92,7 +97,7 @@ Answer. Yes, not stories but you can download pfp and posts.
 Answer. No. You only need to have username and password of the account.
 
 #### [Q.4] In android, can we use webview to login?
-Answer. Yes, check [this]() example on how to use that
+Answer. Yes, check [this](https://github.com/ErrorxCode/EasyInsta/wiki/Android-users#using-webview-for-login) example on how to use that
 
 
 ## Contributing
