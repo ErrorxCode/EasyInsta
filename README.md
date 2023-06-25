@@ -3,7 +3,7 @@
 <p align="left">
   <a href="#"><img alt="Languages-Java" src="https://img.shields.io/badge/Language-Java-1DA1F2?style=flat-square&logo=java"></a>
   <a href="#"><img alt="Version" src="https://jitpack.io/v/ErrorxCode/EasyInsta.svg"></a>
-  <a href="https://www.instagram.com/x0.rahil/"><img alt="Instagram - x__coder__" src="https://img.shields.io/badge/Instagram-x0.rahil-lightgrey"></a>
+  <a href="https://www.instagram.com/x0.rahil/"><img alt="Instagram - x0.rahil" src="https://img.shields.io/badge/Instagram-x0.rahil-lightgrey"></a>
   <a href="#"><img alt="Downloads" src="https://jitpack.io/v/ErrorxCode/EasyInsta/month.svg"></a>
   <a href="#"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ErrorxCode/EasyInsta?style=social"></a>
   </p>
@@ -25,13 +25,13 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 - Supports **Login using cache/saving sessions**
 - Supports **Posting**
 - Supports **Adding stories**
-- Supports **Following / Unfollowing others**
-- Supports **Acception / Ignoring follow request**
+- Supports **Following/Unfollowing others**
+- Supports **Acception/Ignoring follow request**
 - Supports **Scrapping followings and followers**
 - Supports **Getting profile data**
 - Supports **Liking/commenting on post**
 - Supports **Fetching feeds/timeline post**
-- 
+- Supports **Downloading posts and pfp**
 
 ## Implimentation
  In your project build.gradle
@@ -46,11 +46,10 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 In your app build.gradle
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyInsta:v2.8'
+	        implementation 'com.github.ErrorxCode:EasyInsta:2.9'
 		implementation 'com.github.ErrorxCode:AsyncTask:1.0'
 	}
 ```
-**Note : `v2.8` is the latest build, don't go for `2.8`**
 
 
 
@@ -86,11 +85,14 @@ Answer. Yes. But Instagram don't allow to make bots with their officail graph AP
 
 #### [Q.2] Can we download stories or posts using this API ?
 
-Answer. No, Use [Instagram basic display API](https://developers.facebook.com/docs/instagram-basic-display-api/) for that.
+Answer. Yes, not stories but you can download pfp and posts.
 
 #### [Q.3] Does use of this library requires any tokens or other keys ?
 
 Answer. No. You only need to have username and password of the account.
+
+#### [Q.4] In android, can we use webview to login?
+Answer. Yes, check [this]() example on how to use that
 
 
 ## Contributing
