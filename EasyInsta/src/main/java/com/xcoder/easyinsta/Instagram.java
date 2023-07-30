@@ -307,7 +307,7 @@ public class Instagram {
          * @return A {@link AsyncTask} indication success or failure of the request
          */
         public AsyncTask<Void> directMessage(@NotNull String username, @NotNull File photo) {
-            if (!photo.getName().endsWith(".jpg") || !photo.getName().endsWith(".png") || !photo.getName().endsWith("jpeg"))
+            if (!photo.getName().endsWith(".jpg") && !photo.getName().endsWith(".png") && !photo.getName().endsWith("jpeg"))
                 throw new InstagramException("Unsupported file format. Only photos with jpg/png/jpeg extensions are allowed", Reasons.UNSUPPORTED_FILE_FORMAT);
 
             return AsyncTask.callAsync(() -> {
