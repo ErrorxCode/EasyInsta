@@ -51,10 +51,11 @@ The library will be based on the privaye api of **web version** of instagram. If
 In your app build.gradle
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyInsta:2.9'
+	        implementation 'com.github.ErrorxCode:EasyInsta:TAG'
 		implementation 'com.github.ErrorxCode:AsyncTask:1.0'
 	}
 ```
+<a href="#"><img alt="Version" src="https://jitpack.io/v/ErrorxCode/EasyInsta.svg"></a>
 
 
 
