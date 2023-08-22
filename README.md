@@ -104,7 +104,7 @@ Answer. Yes, check [this](https://github.com/ErrorxCode/EasyInsta/wiki/Android-u
 ## Contributing
 Contributions are always welcome! 
 
-There is always a scope of improvement in this library. What you can do is you can add more endpoints from [instagram4j](https://github.com/instagram4j/instagram4j) library.
+Please refer to [Contribution guide](/CONTRIBUTING.md). aslo see the [code of conduct](/CODE_OF_CONDUCT.md)
 
 
 ## Support
