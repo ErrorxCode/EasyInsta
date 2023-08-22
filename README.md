@@ -18,6 +18,8 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 A brand new library is been planed to be created as replacement of **instagram4j**. The new library will be more easy, optimised, and safe (less challenges) to use.
 The library will be based on the privaye api of **web version** of instagram. If you want to contribute on making of that new lib, please ping me at @x0.rahil on instagram. _Little help is appreciated_ 💖
 
+To get started, you need to discover/reverse engineer instagram endpoints and add it to **OpenAPI spec.json**
+
 ## Features
 
 - Lightweight and Easy 2 use
@@ -102,7 +104,7 @@ Answer. Yes, check [this](https://github.com/ErrorxCode/EasyInsta/wiki/Android-u
 
 
 ## Contributing
-Contributions are always welcome! 
+Contributions are always welcome!
 
 Please refer to [Contribution guide](/CONTRIBUTING.md). aslo see the [code of conduct](/CODE_OF_CONDUCT.md)
 
