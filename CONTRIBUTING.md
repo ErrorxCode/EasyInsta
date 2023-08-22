@@ -133,27 +133,13 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/Errorx
 
 <!-- You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
 
-### Your First Code Contribution
-<!-- TODO
-include Setup of env, IDE and typical getting started instructions?
+## Contribution guide
+First of all, to contribuite in this project, you need to be good in OOPs and must know to use **okhttp** client. But before that, we need a openapi specifiaction where all the api requests will be listed with proper formate. We just have to impliment the request one by one in java.
 
--->
+So before getting stared....what we need is the reverse enggineered endpoints of instagram. If you know that, then please collect api endoints and later I will provide you with a `.json` file in which you have to add your discovered endpoints. If not, then please wait for the openapi specification to get ready.
 
-### Improving The Documentation
-<!-- TODO
-Updating, improving and correcting the documentation
+### Summerizing
 
--->
-
-## Styleguides
-### Commit Messages
-<!-- TODO
-
--->
-
-## Join The Project Team
-<!-- TODO -->
-
-<!-- omit in toc -->
-## Attribution
-This guide is based on the **contributing-gen**. [Make your own](https://github.com/bttger/contributing-gen)!
+You can contribute to this project in either ways :-
+- By reverse engineering/discovering api endpoints of instagram and then adding them to OpanAPI spec.
+- By implimenting the already discovered endpoints in the library and adding them to respected class.
