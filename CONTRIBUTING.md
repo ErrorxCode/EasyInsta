@@ -131,7 +131,7 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/Errorx
 ## Contribution guide
 First of all, to contribuite in this project, you need to be good in OOPs and must know to use **okhttp** client. But before that, we need a openapi specifiaction where all the api requests will be listed with proper formate. We just have to impliment the request one by one in java.
 
-So before getting stared....what we need is the reverse enggineered endpoints of instagram. If you know that, then please collect api endoints and later I will provide you with a `.json` file in which you have to add your discovered endpoints. If not, then please wait for the openapi specification to get ready.
+So before getting stared....what we need is the reverse enggineered endpoints of instagram. If you know that, then **give me your postman email** and I will invite yout to collabration workplace where all the endpoints are collected. Later, I will provide you with a `.json` file in which you have to add your discovered endpoints. If not, then please wait for the openapi specification to get ready.
 
 ## Styleguides
 Follow [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html), see other bits of the code base, and write consistent code.
