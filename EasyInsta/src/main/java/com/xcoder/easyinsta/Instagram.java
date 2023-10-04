@@ -16,6 +16,7 @@ import com.github.instagram4j.instagram4j.requests.feed.FeedUserStoryRequest;
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsActionRequest;
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsPendingRequest;
 import com.github.instagram4j.instagram4j.responses.feed.FeedUsersResponse;
+import com.github.instagram4j.instagram4j.responses.media.MediaResponse;
 import com.github.instagram4j.instagram4j.utils.IGChallengeUtils;
 import com.github.instagram4j.instagram4j.utils.IGUtils;
 import com.github.instagram4j.realtime.IGRealtimeClient;
@@ -717,19 +718,20 @@ public class Instagram {
          *
          * @param post    The photo or video to post
          * @param caption Caption for the post
-         * @return A {@link AsyncTask} indication success or failure of the request
+         * @return A {@link AsyncTask} indication success or failure of the request with a possible return object
          */
-        public AsyncTask<Void> post(@NotNull File post, String caption) {
+        public AsyncTask<MediaResponse.MediaConfigureTimelineResponse> post(@NotNull File post, String caption) {
             return AsyncTask.callAsync(() -> {
+                MediaResponse.MediaConfigureTimelineResponse retVal;
                 var timeline = client.actions().timeline();
                 if (post.getName().endsWith(".mp4")) {
                     var stream = new URL("https://docs.clorabase.tk/favicon.png").openStream();
                     var file = File.createTempFile("clorabase-logo", ".png");
                     Files.copy(stream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    timeline.uploadVideo(post, file, caption).get(60, TimeUnit.SECONDS);
+                    retVal = timeline.uploadVideo(post, file, caption).get(60, TimeUnit.SECONDS);
                 } else
-                    timeline.uploadPhoto(post, caption).get(10, TimeUnit.SECONDS);
-                return null;
+                    retVal = timeline.uploadPhoto(post, caption).get(10, TimeUnit.SECONDS);
+                return retVal;
             });
         }
 
