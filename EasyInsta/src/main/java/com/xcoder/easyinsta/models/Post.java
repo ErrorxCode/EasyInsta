@@ -27,6 +27,13 @@ public class Post extends PostInfo {
         });
     }
 
+    public AsyncTask<Void> delete() {
+        return AsyncTask.callAsync(() -> {
+            utils.request(new MediaActionRequest(id, MediaActionRequest.MediaAction.DELETE));
+            return null;
+        });
+    }
+
     public AsyncTask<Void> comment(@NotNull String comment){
         return AsyncTask.callAsync(() -> {
             utils.request(new MediaCommentRequest(id, comment));
