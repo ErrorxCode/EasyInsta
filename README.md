@@ -15,8 +15,9 @@ Disclaimer ⚠: This API is private. Means that instagram has not documented or 
 
 
 # **Announcement** 🔊
-A brand new library is been planed to be created as replacement of **instagram4j**. The new library will be more easy, optimised, and safe (less challenges) to use.
-The library will be based on the privaye api of **web version** of instagram. If you want to contribute on making of that new lib, please ping me at @x0.rahil on instagram. _Little help is appreciated_ 💖
+#### This wrapper has been depricated since the used version of the base library is outdated and no longer mainted (became legacy). You can directly use the new [instagram4j-v3](https://github.com/instagram4j/instagram4j/) that does not require any wrapper.
+
+---
 
 To get started, you need to discover/reverse engineer instagram endpoints and add it to **OpenAPI spec.json**
 
